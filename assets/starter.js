@@ -204,6 +204,25 @@ document.addEventListener('DOMContentLoaded', () => {
      * @function renderProfileSkills
      */
     const renderProfileSkills = () => {
+        let btn = document.getElementById("profile-form__save-btn");
+        btn.addEventListener("click", (e)=>{
+            e.preventDefault();
+        });
+        skillInput.addEventListener("keyup", (event)=>{
+            if(event.key === "Enter"){
+                let skill = skillInput;
+                profileSkillsList.innerHTML = `<li class="profile-skill-tag" data-skill="${skill}">
+            <span>${skill}</span>
+            <button class="profile-skill-remove" aria-label="Remove skill ${skill}">✕</button>
+         </li>`;
+        //         profileSkillsList.innerHTML += `<li class="profile-skill-tag" data-skill="${user_skills}">
+        //     <span>${user_skills}</span>
+        //     <button class="profile-skill-remove" aria-label="Remove skill ${user_skills}">✕</button>
+        //  </li>`;
+        //  profileSkillsList.preventDefault();
+            }
+        })
+        
         // TODO: Implement skills rendering
         // Use this HTML template for each skill:
         // `<li class="profile-skill-tag" data-skill="${skill}">
