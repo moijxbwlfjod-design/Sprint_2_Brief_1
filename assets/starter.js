@@ -208,10 +208,13 @@ document.addEventListener('DOMContentLoaded', () => {
         btn.addEventListener("click", (e)=>{
             e.preventDefault();
         });
-        skillInput.addEventListener("keyup", (event)=>{
+        skillInput.addEventListener("keydown", (event)=>{
+            
             if(event.key === "Enter"){
-                let skill = skillInput;
-                profileSkillsList.innerHTML = `<li class="profile-skill-tag" data-skill="${skill}">
+                event.preventDefault();
+                let skill = skillInput.value;
+
+                profileSkillsList.innerHTML += `<li class="profile-skill-tag" data-skill="${skill}">
             <span>${skill}</span>
             <button class="profile-skill-remove" aria-label="Remove skill ${skill}">✕</button>
          </li>`;
@@ -220,6 +223,7 @@ document.addEventListener('DOMContentLoaded', () => {
         //     <button class="profile-skill-remove" aria-label="Remove skill ${user_skills}">✕</button>
         //  </li>`;
         //  profileSkillsList.preventDefault();
+                event.target.value = "";
             }
         })
         
@@ -303,7 +307,20 @@ document.addEventListener('DOMContentLoaded', () => {
      * @function renderFavoritesCount
      */
     const renderFavoritesCount = () => {
-        // TODO: Update favorites count in tab
+        // let fav_list = allJobs;
+        // console.log(document.getElementsByClassName("job-card"))
+        // document.getElementsByClassName("job-card").addEventListener("click", (event)=>{
+        //     if(event.target.tagName=="BUTTON"){
+        //         console.log("fav btn clicked");
+        //     }
+        // })
+
+        let fav_btns = document.querySelectorAll(".job-card__favorite-btn");
+        for(let i = 0; i < fav_btns.length; i++){
+            fav_btns[i].addEventListener("click", (e)=>{
+                console.log("btn clicked");
+            });
+        };
     };
 
     /**
@@ -590,6 +607,10 @@ document.addEventListener('DOMContentLoaded', () => {
             };
                 renderJobs(sug);
         });
+        clearFiltersBtn.addEventListener("click", (event)=>{
+            searchInput.value = "";
+            renderJobs(allJobs);
+        })
     };
     // ------------------------------------
     // --- EVENT HANDLERS ---
@@ -637,6 +658,21 @@ document.addEventListener('DOMContentLoaded', () => {
      * @async
      * @function initializeApp
      */
+
+    function save_new_profile(){
+        let save_btn = document.getElementById("save-job-btn");
+        save_btn.addEventListener("clikc", (e)=>{
+            e.preventDefault();
+            let list = allJobs;
+            let temp = allJobs[0];
+            for (let i = 0; i < allJobs.length; i++){
+                list[i+1] = allJobs[i];
+            }
+            list[0] = [{jobIdInput.value, jobCompanyInput.value, jobLogoInput.value, , , jobPositionInput.value, jobRoleInput.value, jobLevelInput.value, , jobContractInput.value, jobLocationInput.value, jobLocationInput.value}];
+
+        })
+    }
+
     const initializeApp = async () => {
         // TODO: Implement app initialization
         // 1. Load saved data (profile, favorites)
@@ -677,7 +713,20 @@ document.addEventListener('DOMContentLoaded', () => {
         renderJobs(allJobs);
         // let temp = [allJobs[0],allJobs[1],allJobs[2]]
         // renderJobs(temp);
-        
+        function fav_load(){
+            let fav_btns = document.querySelectorAll(".job-card button");
+            console.log(fav_btns);
+            fav_btns.addEventListener("click", (e)=>{
+                let parent = e.target.parentNode;
+                console.log("clicked");
+            })
+        }
+        profileSkillsList.addEventListener("click", (ev)=>{
+            if(ev.target.tagName==="BUTTON"){
+                ev.preventDefault();
+                ev.target.parentNode.remove();
+            }
+        })
         // TODO: Add remaining event listeners 
         // Profile events
         // Filter events  
